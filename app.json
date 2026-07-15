@@ -1,0 +1,41 @@
+{
+  "expo": {
+    "name": "Vitta",
+    "slug": "vitta",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "scheme": "vitta",
+    "userInterfaceStyle": "automatic",
+    "icon": "./assets/werable2.png",
+    "splash": {
+      "image": "./assets/werable3.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#2F404F"
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.taurus.vitta"
+    },
+    "android": {
+      "package": "com.taurus.vitta",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/werable2.png",
+        "backgroundColor": "#2F404F"
+      }
+    },
+    "plugins": [
+      "expo-router",
+      "expo-secure-store",
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Vitta necesita acceso a la cámara para escanear el código QR de vinculación del reloj."
+        }
+      ]
+    ],
+    "extra": {
+      "router": { "origin": false }
+    }
+  }
+}
