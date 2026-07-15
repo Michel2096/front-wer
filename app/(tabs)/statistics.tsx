@@ -6,9 +6,11 @@ import { GradientBackground } from "@/components/ui/GradientBackground";
 import { Card } from "@/components/ui/Card";
 import { RingProgress } from "@/components/metrics/RingProgress";
 import { WatchTile } from "@/components/watch/WatchTile";
+import { WatchPageDots } from "@/components/watch/WatchPageDots";
 import { useAppTheme } from "@/hooks/useAppTheme";
 import { useHealthStatistics } from "@/hooks/useHealth";
 import { useWatchMode } from "@/hooks/useWatchMode";
+import { useWatchSwipe } from "@/hooks/useWatchSwipe";
 import { useUiStore } from "@/store/uiStore";
 import { metricColors, statusColors, watchTheme } from "@/constants/theme";
 import { MetricStatistic } from "@/types/health";
@@ -70,18 +72,22 @@ const statList: {
 export default function Statistics() {
   const theme = useAppTheme();
   const isWatchMode = useWatchMode();
+  const watchSwipe = useWatchSwipe();
   const historyRange = useUiStore((s) => s.historyRange);
   const { data, isLoading } = useHealthStatistics(historyRange);
 
   if (isWatchMode) {
     return (
-      <View style={{ flex: 1, backgroundColor: watchTheme.background }}>
+      <View style={{ flex: 1, backgroundColor: watchTheme.background }} {...watchSwipe.panHandlers}>
         <SafeAreaView style={{ flex: 1 }} edges={["top"]}>
           <ScrollView contentContainerStyle={{ padding: 20, paddingBottom: 40 }}>
             <View style={{ flexDirection: "row", alignItems: "center", gap: 8, marginBottom: 4 }}>
               <Feather name="watch" size={16} color={watchTheme.textMuted} />
               <Text style={{ color: watchTheme.text, fontSize: 24, fontWeight: "800" }}>Estadísticas</Text>
             </View>
+
+            <WatchPageDots count={watchSwipe.pageCount} current={watchSwipe.currentIndex} onSelect={watchSwipe.goToIndex} />
+
             <Text style={{ color: watchTheme.textMuted, fontSize: 13, marginBottom: 20 }}>
               Promedios del periodo seleccionado, como en las complicaciones del reloj
             </Text>

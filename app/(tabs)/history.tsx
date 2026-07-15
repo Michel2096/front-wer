@@ -5,9 +5,11 @@ import { Feather } from "@expo/vector-icons";
 import { GradientBackground } from "@/components/ui/GradientBackground";
 import { Card } from "@/components/ui/Card";
 import { TrendChart } from "@/components/charts/TrendChart";
+import { WatchPageDots } from "@/components/watch/WatchPageDots";
 import { useAppTheme } from "@/hooks/useAppTheme";
 import { useHealthHistory } from "@/hooks/useHealth";
 import { useWatchMode } from "@/hooks/useWatchMode";
+import { useWatchSwipe } from "@/hooks/useWatchSwipe";
 import { useUiStore } from "@/store/uiStore";
 import { HistoryRange } from "@/types/health";
 import { metricColors, watchTheme } from "@/constants/theme";
@@ -22,6 +24,7 @@ const ranges: { label: string; value: HistoryRange }[] = [
 export default function History() {
   const theme = useAppTheme();
   const isWatchMode = useWatchMode();
+  const watchSwipe = useWatchSwipe();
   const historyRange = useUiStore((s) => s.historyRange);
   const setHistoryRange = useUiStore((s) => s.setHistoryRange);
   const { data, isLoading } = useHealthHistory(historyRange);
@@ -30,13 +33,15 @@ export default function History() {
 
   if (isWatchMode) {
     return (
-      <View style={{ flex: 1, backgroundColor: watchTheme.background }}>
+      <View style={{ flex: 1, backgroundColor: watchTheme.background }} {...watchSwipe.panHandlers}>
         <SafeAreaView style={{ flex: 1 }} edges={["top"]}>
           <ScrollView contentContainerStyle={{ padding: 20, paddingBottom: 40 }}>
             <View style={{ flexDirection: "row", alignItems: "center", gap: 8, marginBottom: 16 }}>
               <Feather name="watch" size={16} color={watchTheme.textMuted} />
               <Text style={{ color: watchTheme.text, fontSize: 24, fontWeight: "800" }}>Historial</Text>
             </View>
+
+            <WatchPageDots count={watchSwipe.pageCount} current={watchSwipe.currentIndex} onSelect={watchSwipe.goToIndex} />
 
             <View
               style={{

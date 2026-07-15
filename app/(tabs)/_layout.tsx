@@ -15,14 +15,11 @@ export default function TabsLayout() {
         headerShown: false,
         tabBarActiveTintColor: isWatchMode ? watchTheme.text : theme.accent,
         tabBarInactiveTintColor: isWatchMode ? "#B9BBB5" : theme.textMuted,
+        // En modo reloj no hay barra de tabs (un smartwatch real no la tiene):
+        // la navegación entre pantallas es por deslizar o tocar los puntos
+        // del bisel (ver useWatchSwipe / WatchPageDots).
         tabBarStyle: isWatchMode
-          ? {
-              backgroundColor: watchTheme.face,
-              borderTopWidth: 1,
-              borderTopColor: watchTheme.border,
-              height: 88,
-              paddingTop: 10,
-            }
+          ? { display: "none" }
           : {
               backgroundColor: theme.tabBar,
               borderTopWidth: 0,

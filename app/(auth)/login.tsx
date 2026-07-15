@@ -86,6 +86,13 @@ export default function Login() {
               onPress={() => router.push("/watch-scan")}
               style={{ marginTop: 4 }}
             />
+
+            <Button
+              label="Configurar servidor (IP local)"
+              variant="ghost"
+              onPress={() => router.push("/network-settings")}
+              style={{ marginTop: 0 }}
+            />
           </ScrollView>
         </KeyboardAvoidingView>
       </SafeAreaView>

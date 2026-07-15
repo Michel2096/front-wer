@@ -11,9 +11,11 @@ import { MetricCard } from "@/components/metrics/MetricCard";
 import { RingProgress } from "@/components/metrics/RingProgress";
 import { WatchFace } from "@/components/watch/WatchFace";
 import { WatchTile } from "@/components/watch/WatchTile";
+import { WatchPageDots } from "@/components/watch/WatchPageDots";
 import { useAppTheme } from "@/hooks/useAppTheme";
 import { useDashboard } from "@/hooks/useDashboard";
 import { useWatchMode } from "@/hooks/useWatchMode";
+import { useWatchSwipe } from "@/hooks/useWatchSwipe";
 import { useLogout } from "@/hooks/useAuth";
 import { useAuthStore } from "@/store/authStore";
 import { metricColors, palette, radius, statusColors, watchTheme, cardShadow } from "@/constants/theme";
@@ -43,6 +45,7 @@ export default function Dashboard() {
   const user = useAuthStore((s) => s.user);
   const logout = useLogout();
   const isWatchMode = useWatchMode();
+  const watchSwipe = useWatchSwipe();
 
   const handleLogout = async () => {
     await logout.mutateAsync();
@@ -55,7 +58,7 @@ export default function Dashboard() {
 
   if (isWatchMode) {
     return (
-      <View style={{ flex: 1, backgroundColor: watchTheme.background }}>
+      <View style={{ flex: 1, backgroundColor: watchTheme.background }} {...watchSwipe.panHandlers}>
         <SafeAreaView style={{ flex: 1 }} edges={["top"]}>
           <ScrollView
             contentContainerStyle={{ padding: 20, paddingBottom: 40, alignItems: "center" }}
@@ -94,6 +97,8 @@ export default function Dashboard() {
                 <Feather name="log-out" size={14} color={watchTheme.textMuted} />
               </Pressable>
             </View>
+
+            <WatchPageDots count={watchSwipe.pageCount} current={watchSwipe.currentIndex} onSelect={watchSwipe.goToIndex} />
 
             <Text style={{ color: watchTheme.textMuted, fontSize: 13, alignSelf: "flex-start" }}>Hola,</Text>
             <Text
